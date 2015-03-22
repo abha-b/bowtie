@@ -31,7 +31,8 @@ class Graph(nx.DiGraph):
         """ calculate several statistical measures on the graphs"""
         # Core, In and Out
         cc = nx.strongly_connected_components(self)
-        lc = self.subgraph(cc.next())
+        cc_non_trivial = (n_list for n_list in cc if (len(n_list) > 1))
+        lc = self.subgraph(cc_non_trivial.next())
         scc = set(lc.nodes())
         scc_node = random.sample(scc, 1)[0]
         sp = nx.all_pairs_shortest_path_length(self)
